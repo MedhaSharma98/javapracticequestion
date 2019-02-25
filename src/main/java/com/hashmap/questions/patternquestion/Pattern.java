@@ -1,4 +1,4 @@
-package com.hashmap.questions.PatternQuestion;
+package com.hashmap.questions.patternquestion;
 
 import java.util.Scanner;
 

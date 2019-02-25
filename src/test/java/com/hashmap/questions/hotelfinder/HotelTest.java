@@ -1,46 +1,80 @@
 package com.hashmap.questions.hotelfinder;
 
-import com.hashmap.questions.hotelfinder.Services.Mmt;
-import com.hashmap.questions.hotelfinder.Util.Customer;
-import com.hashmap.questions.hotelfinder.Util.Days;
+import com.hashmap.questions.hotelfinder.services.Mmt;
+import com.hashmap.questions.hotelfinder.util.Customer;
+import com.hashmap.questions.hotelfinder.util.Days;
 import com.hashmap.questions.hotelfinder.model.Category;
 import com.hashmap.questions.hotelfinder.model.Hotel;
 import com.hashmap.questions.hotelfinder.model.Request;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class HotelTest {
+        List<Hotel> hotelList =new ArrayList<>();
+        Mmt mmt;
+
+    @Before
+    public void init(){
+        Map<Category,Integer> mapOFLakewood = new HashMap<Category, Integer>();
+        Map<Category,Integer> mapOFBridgewood = new HashMap<Category, Integer>();
+        Map<Category,Integer> mapOFRidgewood = new HashMap<Category, Integer>();
+
+        mapOFLakewood.put(new Category(Customer.REGULAR,Days.WEEKDAY),110);
+        mapOFLakewood.put(new Category(Customer.REGULAR,Days.WEEKEND),90);
+        mapOFLakewood.put(new Category(Customer.REWARD,Days.WEEKDAY),80);
+        mapOFLakewood.put(new Category(Customer.REWARD,Days.WEEKEND),80);
+
+
+        mapOFBridgewood.put(new Category(Customer.REGULAR,Days.WEEKDAY),160);
+        mapOFBridgewood.put(new Category(Customer.REGULAR,Days.WEEKEND),60);
+        mapOFBridgewood.put(new Category(Customer.REWARD,Days.WEEKDAY),110);
+        mapOFBridgewood.put(new Category(Customer.REWARD,Days.WEEKEND),50);
+
+
+        mapOFRidgewood.put(new Category(Customer.REGULAR,Days.WEEKDAY),220);
+        mapOFRidgewood.put(new Category(Customer.REGULAR,Days.WEEKEND),150);
+        mapOFRidgewood.put(new Category(Customer.REWARD,Days.WEEKDAY),100);
+        mapOFRidgewood.put(new Category(Customer.REWARD,Days.WEEKEND),40);
+
+        hotelList.add(new Hotel("LAKEWOOD",3,mapOFLakewood));
+        hotelList.add(new Hotel("BRIDGEWOOD",4,mapOFBridgewood));
+        hotelList.add(new Hotel("RIDGEWOOD",5,mapOFRidgewood));
+
+        mmt=new Mmt(hotelList);
+
+    }
+
 
 
     @Test
     public void getCheapestHotel(){
 
-        Category category1=new Category(Customer.REGULAR, Days.WEEKDAY);
-        Category category2=new Category(Customer.REGULAR,Days.WEEKEND);
-        Category category3=new Category(Customer.REWARD,Days.WEEKDAY);
-        Category category4=new Category(Customer.REWARD,Days.WEEKEND);
+        List<Days> daysList1 =new ArrayList<>();
+        daysList1.add(Days.WEEKDAY);
+        daysList1.add(Days.WEEKEND);
 
-        ArrayList<Category> categories =new ArrayList<Category>();
-        categories.add(category1);
-        categories.add(category2);
-        categories.add(category3);
-        categories.add(category4);
+        List<Days> daysList2 =new ArrayList<>();
+        daysList2.add(Days.WEEKEND);
+        daysList2.add(Days.WEEKEND);
 
-     Mmt mmt =new Mmt(categories);
-     Hotel hotel =mmt.findCheapestHotel(new Request(Customer.REWARD,"2/15/2019 2/16/2019"));
+        Hotel hotel1 =mmt.findCheapestHotel(new Request(Customer.REGULAR,daysList1));
+        Hotel hotel2 =mmt.findCheapestHotel(new Request(Customer.REWARD,daysList2));
 
      Map<Category,Integer> expectedMap = new HashMap<Category, Integer>();
-        expectedMap.put(category1,210);
-        expectedMap.put(category2,150);
-        expectedMap.put(category3,100);
-        expectedMap.put(category4,40);
+        expectedMap.put(new Category(Customer.REGULAR,Days.WEEKDAY),210);
+        expectedMap.put(new Category(Customer.REGULAR,Days.WEEKEND),150);
+        expectedMap.put(new Category(Customer.REWARD,Days.WEEKDAY),100);
+        expectedMap.put(new Category(Customer.REWARD,Days.WEEKEND),40);
     Hotel expectedHotel=new Hotel("RIDGEWOOD",4,expectedMap);
 
-        Assert.assertEquals(expectedHotel.getName(),hotel.getName());
+        Assert.assertEquals(expectedHotel.getName(),hotel2.getName());
+        Assert.assertEquals(expectedHotel.getName(),hotel1.getName());
 
 
 

@@ -1,4 +1,4 @@
-package com.hashmap.questions.hotelfinder.Services;
+package com.hashmap.questions.hotelfinder.services;
 
 import com.hashmap.questions.hotelfinder.model.Hotel;
 import com.hashmap.questions.hotelfinder.model.Request;

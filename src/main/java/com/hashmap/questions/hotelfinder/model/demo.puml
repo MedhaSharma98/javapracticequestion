@@ -1,0 +1,26 @@
+@startuml
+
+abstract class AbstractList
+abstract AbstractCollection
+interface List
+interface Collection
+
+HotelService <|-- Mnt
+Collection <|-- AbstractCollection
+
+
+
+class Category {
+Customer customerType
+Days dayType
+}
+
+enum Days {
+WEEKDAY,WEEKEND
+}
+
+enum Customer
+{
+REGULAR,REWARD
+}
+@enduml
